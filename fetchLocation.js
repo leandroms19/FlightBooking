@@ -2,7 +2,8 @@ let coordinatesArray = []
 let hasclickedDeparture = false;
 let hasclickedDestination = false;
 let iataCodeArray = []
-let airportNamesArray = []
+let airportNamesDepartureArray = []
+let airportNamesDestinationArray = []
 /*let coordinates = {
     "apiKey": "9406a40341ea7f295220f7e49c78ce52",
     fetchLocation: function(city, eID){
@@ -102,37 +103,41 @@ const fetchAirportsCoordinates = function(lat, lon, eID){
 	}
 })
 .then((response) => response.json())
-.then((data) => this.pushIataCodeIntoArray(data, eID));
+.then((data) => this.fetchIataCode(data, eID));
 };
 
-function pushIataCodeIntoArray(data, eID){
-    for(var i = 0; i < data.length; i++) {
-        iataCodeArray.push(data[i].iataCode)
-    }
-    fetchIataCode(iataCodeArray, eID)
-}
 
-const fetchIataCode = function(iataCodeArray, eID){
-    for(var i = 0; i < iataCodeArray.length; i++){
-        fetch("https://airport-info.p.rapidapi.com/airport?iata=" + iataCodeArray[i] + "" , {
+function fetchIataCode(data, eID){
+    let iataCodeCount = 0
+    data.map(iataCode => {
+        iataCodeCount++
+        fetch("https://airport-info.p.rapidapi.com/airport?iata=" + iataCode.iataCode + "" , {
         "method": "GET",
         "headers": {
             "x-rapidapi-host": "airport-info.p.rapidapi.com",
             "x-rapidapi-key": "77dd87ca86msh174b5248aa25b9cp1a6920jsn855ea670735d"
         }
         })                                                      
-        .then((response) => response.json())
-        .then((data) => pushAirportNameIntoArray(data.name, eID))
-    }
+    .then((response) => response.json())
+    .then((data) => pushAirportNameIntoArray(data, eID, iataCodeCount))
+    })
+    
 }
 
 
-function pushAirportNameIntoArray(airportName,  eID){
-    airportNamesArray.push(airportName)
-    if(airportNamesArray.length == iataCodeArray.length){
-        console.log(airportNamesArray)
-        outputHtml(airportNamesArray, eID)   
+function pushAirportNameIntoArray(data,  eID, iataCodeCount){
+    if(eID == 'search-departures'){
+        airportNamesDepartureArray.push(data.name)
+        if(airportNamesDepartureArray.length == iataCodeCount){
+            outputHtml(airportNamesDepartureArray, eID)
+        }
+    }
+    else if(eID == 'search-destinations'){
+        airportNamesDestinationArray.push(data.name)  
+        if(airportNamesDestinationArray.length == iataCodeCount){
+            outputHtml(airportNamesDestinationArray, eID)
+        }  
     }
     
-      
 }
+    

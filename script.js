@@ -70,13 +70,15 @@ else if(tripInput != null){
 function outputHtml(airportNames, eID){
     console.log(eID)
     if(airportNames.length > 0){
-        console.log('teste')
-        const html = airportNames.map(t => `
-            <div class="card">
-                <span class="text-suggestion">${t}</span>
-            </div>
-        `).join('');
-        
+        const html = airportNames.map(airporSuggestion => {
+            if(airporSuggestion != undefined){
+                return `
+                <div class="card">
+                    <span class="text-suggestion">${airporSuggestion}</span>
+                </div>
+                `  
+            }
+        }).join('');
         if(eID == 'search-departures'){
             departureSuggestions.innerHTML = html;
             departureSuggestions.style.visibility = 'visible';
