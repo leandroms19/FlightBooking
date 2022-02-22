@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <script src="fetchLocation.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="trip.js" defer></script>
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Flight Booking</title>
+</head>
+<body>
+    
+    <div class="top-nav">
+        <header>
+            <img class="logo" src="logo.png">
+            <ul>
+                <li><a class="active" href="#">Serviços</a></li>
+                <li><a class="active" href="#">Sobre nós</a></li>
+            </ul>
+        </header>
+    </div>
+    <div class="container">
+        
+        
+        <div class="brand">
+            <h1>Flight Booking</h1>
+            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</h4>
+        </div>
+        
+        <div class="panel"> 
+            <div class="">
+                <div class="flex">
+                    <div class="trip-type" id="round-trip">Ida e volta</div>
+                    <div class="trip-type" id="one-way">Somente ida</div>
+                </div>
+            </div>
+            <div class="flight-info">
+                <div class="formulary">
+                    <div class="location">
+                        <input type="text" id="departure" placeholder="Selecione a origem" >
+                        <i id="search-departures" class="material-icons search-location">search</i>
+                        
+                        <i class="material-icons" style="font-size:36px">flight_takeoff</i>
+                        
+                        <input type="text"  id="destination" placeholder="Selecione o destino" >
+                        <i id="search-destinations" class="material-icons search-location">search</i>
+                        
+                        <div class="suggestions">
+                            <div id="departure-suggestion" class="location-suggestion">
+    
+                            </div>
+                            <div id="destination-suggestion" class="location-suggestion">
+        
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="date">
+                        <input type="date" id="departure-date" class="date-picker" max='' placeholder="Data de partida">
+                        <i class="material-icons" id="calendar" style="font-size:36px">date_range</i>
+                        <input type="date" id="return-date" class="date-picker" min='' placeholder="Data de retorno">
+                    </div>
+                </div>
+               
+                <div class="child-adult">
+                    <div class="adults">
+                        Adultos(s):
+                        <button id="decrease-adult" class="decrease">-</button>
+                        <div class="amount" id="adult-amount">0</div>
+                        <button id="increase-adult" class="increase">+</button>
+                    </div>
+                    <div class="childs">
+                        Crianças(s):
+                        <button id="decrease-child" class="decrease">-</button>
+                        <div class="amount" id="child-amount">0</div>
+                        <button id="increase-child" class="increase">+</button>
+                    </div>
+                </div>
+                <div class="footer-panel">
+                    <div class="cabins">
+                        <div class="radio-control">
+                        <input type="radio" id="economic" name="cabin" value="Econômica"
+                        checked>
+                        <label for="economic">Econômica</label>
+                        </div>
+                    
+                        <div class="radio-control">
+                            <input type="radio" id="first-class" name="cabin" value="1ª classe">
+                            <label for="first-class">1ª classe</label>
+                        </div>
+                    </div>
+                    <div class="book-flight">Buscar Passagem</div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!--<div class="main">
+            <div class="hover">
+                <img src="https://www.queroviajarmais.com/wp-content/uploads/2018/08/Primeira-viagem-de-avia%CC%83o.jpg">
+            </div>
+            <div class="hover">
+                <img src="https://www.queroviajarmais.com/wp-content/uploads/2018/08/Primeira-viagem-de-avia%CC%83o.jpg">
+            </div>
+            <div class="hover">
+                <img src="https://www.queroviajarmais.com/wp-content/uploads/2018/08/Primeira-viagem-de-avia%CC%83o.jpg">
+            </div>
+        </div>-->
+    
+   </div>
+    
+   
+</body>
+</html>
