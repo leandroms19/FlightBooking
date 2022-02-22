@@ -4,7 +4,7 @@ let hasclickedDestination = false;
 let coordinates = {
     "apiKey": "9406a40341ea7f295220f7e49c78ce52",
     fetchLocation: function(city, eID){
-        fetch("http://api.openweathermap.org/data/2.5/weather?q="
+        fetch("https://api.openweathermap.org/data/2.5/weather?q="
         + city 
         + "&units=metric&appid=" 
         + this.apiKey)
@@ -21,8 +21,8 @@ let coordinates = {
                     departureLat: lat,
                     departureLong: lon
                 }
-                coordinatesArray[0] = departureCoordinates
-                hasclickedDeparture = true;
+                coordinatesArray[0] = departureCoordinates;
+                hasclickedDeparture = true;;
                 
                 console.log(hasclickedDeparture, hasclickedDestination)
             }
@@ -31,8 +31,8 @@ let coordinates = {
                     destinationLat: lat,
                     destinantionLong: lon
                 }
-                coordinatesArray[1] = destinationCoordinates
-                hasclickedDestination = true
+                coordinatesArray[1] = destinationCoordinates;
+                hasclickedDestination = true;
                 console.log(hasclickedDestination, hasclickedDeparture)
             }
            
