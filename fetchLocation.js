@@ -1,4 +1,5 @@
 let coordinatesArray = []
+let teste = 'teste'
 let hasclickedDeparture = false;
 let hasclickedDestination = false;
 let coordinates = {
