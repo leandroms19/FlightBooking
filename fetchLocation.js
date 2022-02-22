@@ -1,11 +1,10 @@
 let coordinatesArray = []
-let teste = 'teste'
 let hasclickedDeparture = false;
 let hasclickedDestination = false;
 let coordinates = {
     "apiKey": "9406a40341ea7f295220f7e49c78ce52",
     fetchLocation: function(city, eID){
-        fetch("https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q="
+        fetch("https://api.openweathermap.org/data/2.5/weather?q="
         + city 
         + "&units=metric&appid=" 
         + this.apiKey)
