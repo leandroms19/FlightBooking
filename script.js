@@ -68,7 +68,9 @@ else if(tripInput != null){
 
 
 function outputHtml(airportNames, eID){
+    console.log(eID)
     if(airportNames.length > 0){
+        console.log('teste')
         const html = airportNames.map(t => `
             <div class="card">
                 <span class="text-suggestion">${t}</span>
@@ -220,7 +222,7 @@ function getInfo(){
     let trip = new Trip(coordinatesArray, departure, destination, departureDate, returnDate, cabin, tt, departureSchedules, returnSchedules,  adultAmount, childAmount, departureScheduleSelected, returnScheduleSelected);
     
    sessionStorage.setItem('trip', JSON.stringify(trip))
-   window.location.href = "flights-schedule.html";
+   //window.location.href = "flights-schedule.html";
 
     
 }

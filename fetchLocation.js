@@ -1,10 +1,12 @@
 let coordinatesArray = []
 let hasclickedDeparture = false;
 let hasclickedDestination = false;
-let coordinates = {
+let iataCodeArray = []
+let airportNamesArray = []
+/*let coordinates = {
     "apiKey": "9406a40341ea7f295220f7e49c78ce52",
     fetchLocation: function(city, eID){
-        fetch("https://api.openweathermap.org/data/2.5/weather?q="
+        fetch("ghttps://api.openweathermap.org/data/2.5/weather?q="
         + city 
         + "&units=metric&appid=" 
         + this.apiKey)
@@ -63,8 +65,8 @@ let coordinates = {
            this.fetchLocation(document.querySelector("#destination").value, eID);
         }
     },
-}
-/*let coordinates = {
+}*/
+let coordinates = {
     "apiKey": "9406a40341ea7f295220f7e49c78ce52",
     fetchLocation: function(city, eID){
         fetch("http://api.openweathermap.org/data/2.5/weather?q="
@@ -77,7 +79,7 @@ let coordinates = {
 
     displayLocation: function(data, eID){
 		const { lon, lat } = data.coord;
-        fetchAirportsCode(lat, lon, eID);
+        fetchAirportsCoordinates(lat, lon, eID);
     },
 
     search : function(eID){
@@ -90,17 +92,47 @@ let coordinates = {
     },
 }
  
-const fetchAirportsCode = function(lat, lon, eID){
+const fetchAirportsCoordinates = function(lat, lon, eID){
     console.log(lat, lon)
-        fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyCdFIePN5YgiV6MGCxCtydUMJeNtboH_A0", {
-            method: 'GET'
-            
-        }).then((response) => response.json())
-        .then((data) => displayAirportName(data, eID));
-    };
+    fetch("https://aviation-reference-data.p.rapidapi.com/airports/search?lat=" + lat + "&lon=" + lon +"&radius=100", {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-host": "aviation-reference-data.p.rapidapi.com",
+		"x-rapidapi-key": "77dd87ca86msh174b5248aa25b9cp1a6920jsn855ea670735d"
+	}
+})
+.then((response) => response.json())
+.then((data) => this.pushIataCodeIntoArray(data, eID));
+};
 
-function displayAirportName(data, eID){
-    const a = data.NearestAirportResource.Airports.Airport
-    const airportNames = a.map(airportName => airportName.Names.Name['$'])
-    outputHtml(airportNames, eID)    
-}*/
+function pushIataCodeIntoArray(data, eID){
+    for(var i = 0; i < data.length; i++) {
+        iataCodeArray.push(data[i].iataCode)
+    }
+    fetchIataCode(iataCodeArray, eID)
+}
+
+const fetchIataCode = function(iataCodeArray, eID){
+    for(var i = 0; i < iataCodeArray.length; i++){
+        fetch("https://airport-info.p.rapidapi.com/airport?iata=" + iataCodeArray[i] + "" , {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "airport-info.p.rapidapi.com",
+            "x-rapidapi-key": "77dd87ca86msh174b5248aa25b9cp1a6920jsn855ea670735d"
+        }
+        })                                                      
+        .then((response) => response.json())
+        .then((data) => pushAirportNameIntoArray(data.name, eID))
+    }
+}
+
+
+function pushAirportNameIntoArray(airportName,  eID){
+    airportNamesArray.push(airportName)
+    if(airportNamesArray.length == iataCodeArray.length){
+        console.log(airportNamesArray)
+        outputHtml(airportNamesArray, eID)   
+    }
+    
+      
+}
