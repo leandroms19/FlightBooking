@@ -83,32 +83,23 @@ document.querySelector('.change-flights-selected-btn').addEventListener('click',
 
 function displayFlightSchedule(){
     let htmlDeparture, htmlDestination,
-
+//<div class="material-icons" style="transform: rotate(270deg);">flight</div>
     showing = true;
     for(var i = 0; i < 2; i++){
         if(i == 0){
             
             htmlDeparture = tripParsed.departureSchedule.map(fs => `
             <div class="card" id="departure-card">
-                <div card-info>
                     <div class="card-header">
-                        <span class="card-header-type">Ida</span>
-                        <span class="material-icons" style="transform: rotate(270deg);">flight</span>
+                        <div class="card-header-type">Ida <span class="material-icons" style="transform: rotate(270deg);">flight</span></div>
+                        
                         <div class="flight-number">Voo ${flightNumberGenarator()}</div>
+                        <div class='schedule-suggestions'>${fs}</div>
                     </div>
-                
-                    <div class="card-locations">
-                        <div class='ds'>${tripParsed.departure}</div>
-                        <span>></span>
-                        <div class='rs'>${tripParsed.destination}</div>
-                    </div>
-                </div>
-                
+               
                 <div class="card-price">
                     <div id="departure-price">R$ ${ticketPrice(distancia) + ",00"}</div>
                 </div>
-                
-                <div class='schedule-suggestions'>${fs}</div>
             </div>
             `).join(''); 
         }
@@ -151,6 +142,7 @@ function displayFlightSchedule(){
     
     displaySelectedFlights(departureSchedulePanel, returnSchedulePanel)
 }
+
 
 function displaySelectedFlights(departureSchedulePanel, returnSchedulePanel){
     document.querySelectorAll('.card').forEach(item => {
@@ -206,9 +198,23 @@ function displaySelectedFlights(departureSchedulePanel, returnSchedulePanel){
         checkCardsSelected();
         });
     });
-
-    
 }
+
+/*document.querySelectorAll('.card').forEach(item => {
+    item.addEventListener('mouseover', () => {
+        item.querySelector('.card-price').style.backgroundColor = 'white'
+        item.querySelector('.card-price').style.color = 'rgb(' + 5 + ',' + 145 + ',' + 138 + ')';
+    })
+})
+
+document.querySelectorAll('.card').forEach(item => {
+    item.addEventListener('mouseout', () => {
+        item.querySelector('.card-price').style.backgroundColor ='rgb(' + 5 + ',' + 145 + ',' + 138 + ')';
+        item.querySelector('.card-price').style.color = 'white'
+        
+    })
+})*/
+
 
 function handleChangeFlightButton(){
     document.querySelectorAll('.change-button').forEach(item => {

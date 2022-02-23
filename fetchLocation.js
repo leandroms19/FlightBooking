@@ -144,7 +144,7 @@ const fetchAirportsCoordinates = function(lat, lon, eID){
 
 
 function fetchIataCode(data, eID){
-    let iataCodeCount = 0;
+    let iataCodeCount = 0
     data.map(iataCode => {
         iataCodeCount++
         fetch("https://airport-info.p.rapidapi.com/airport?iata=" + iataCode.iataCode + "" , {
@@ -155,7 +155,7 @@ function fetchIataCode(data, eID){
         }
         })                                                      
     .then((response) => response.json())
-    .then((data) => this.departureLongpushAirportNameIntoArray(data, eID, iataCodeCount))
+    .then((data) => this.pushAirportNameIntoArray(data, eID, iataCodeCount))
     })
     
 }
