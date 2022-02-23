@@ -80,6 +80,42 @@ let coordinates = {
 
     displayLocation: function(data, eID){
 		const { lon, lat } = data.coord;
+        if(hasclickedDeparture == false || hasclickedDestination == false){
+            if(eID == 'search-departures' && hasclickedDeparture == false){
+                let departureCoordinates = {
+                    departureLat: lat,
+                    departureLong: lon
+                }
+                coordinatesArray[0] = departureCoordinates;
+                hasclickedDeparture = true;;
+                
+                console.log(hasclickedDeparture, hasclickedDestination)
+            }
+            else if(eID == 'search-destinations' && hasclickedDestination == false){
+                let destinationCoordinates = {
+                    destinationLat: lat,
+                    destinantionLong: lon
+                }
+                coordinatesArray[1] = destinationCoordinates;
+                hasclickedDestination = true;
+                console.log(hasclickedDestination, hasclickedDeparture)
+            }
+           
+            console.log(coordinatesArray)
+            getAllCoordinates(coordinatesArray);
+        }
+        else if(hasclickedDeparture == true || hasclickedDestination == true){
+            if(eID == 'search-departures' && hasclickedDeparture == true){
+                coordinatesArray[0].departureLat = lat
+                coordinatesArray[0].departureLong = lon
+                console.log(coordinatesArray)
+            }
+            else if(eID == 'search-destinations' && hasclickedDestination == true){
+                coordinatesArray[1].destinationLat = lat
+                coordinatesArray[1].destinantionLong = lon
+                console.log(coordinatesArray)
+            }
+        }
         fetchAirportsCoordinates(lat, lon, eID);
     },
 
@@ -108,7 +144,7 @@ const fetchAirportsCoordinates = function(lat, lon, eID){
 
 
 function fetchIataCode(data, eID){
-    let iataCodeCount = 0
+    let iataCodeCount = 0;
     data.map(iataCode => {
         iataCodeCount++
         fetch("https://airport-info.p.rapidapi.com/airport?iata=" + iataCode.iataCode + "" , {
@@ -119,7 +155,7 @@ function fetchIataCode(data, eID){
         }
         })                                                      
     .then((response) => response.json())
-    .then((data) => pushAirportNameIntoArray(data, eID, iataCodeCount))
+    .then((data) => this.departureLongpushAirportNameIntoArray(data, eID, iataCodeCount))
     })
     
 }

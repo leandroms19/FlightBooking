@@ -1,6 +1,5 @@
 
 let tripParsed = JSON.parse(sessionStorage.getItem('trip'))
-console.log(tripParsed.adultAmount, tripParsed.childAmount)
 const departureSchedulePanel = document.querySelector('#departure-schedule')
 const returnSchedulePanel = document.querySelector('#return-schedule')
 const headerInfo = document.querySelector('.header-info');
@@ -8,7 +7,9 @@ let totalPrice = 0;
 document.querySelector('.after').style.display = 'none';
 checkCardsSelected()
 
+
 function calculateDistance(){
+    console.log(tripParsed.coordinatesArray[0].departureLat)
     //Formula found on internet, using only to create random prices based on distance between 2 coordinates
     const R = 6371e3; // metres
     const φ1 = tripParsed.coordinatesArray[0].departureLat * Math.PI/180; // φ, λ in radians
@@ -75,16 +76,18 @@ document.querySelector('.change-flights-selected-btn').addEventListener('click',
     //sessionStorage.setItem('tripInput', JSON.stringify(tripParsed))
     console.log(tripParsed)
     window.location.href = "index.html";
-})
+});
+
 
 
 
 function displayFlightSchedule(){
-    let htmlDeparture;
-    let htmlDestination;
+    let htmlDeparture, htmlDestination,
+
     showing = true;
     for(var i = 0; i < 2; i++){
         if(i == 0){
+            
             htmlDeparture = tripParsed.departureSchedule.map(fs => `
             <div class="card" id="departure-card">
                 <div card-info>

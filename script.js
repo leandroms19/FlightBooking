@@ -224,7 +224,8 @@ function getInfo(){
     let trip = new Trip(coordinatesArray, departure, destination, departureDate, returnDate, cabin, tt, departureSchedules, returnSchedules,  adultAmount, childAmount, departureScheduleSelected, returnScheduleSelected);
     
    sessionStorage.setItem('trip', JSON.stringify(trip))
-   //window.location.href = "flights-schedule.html";
+   console.log(trip.coordinatesArray)
+   window.location.href = "flights-schedule.html";
 
     
 }

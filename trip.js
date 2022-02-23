@@ -1,6 +1,6 @@
 class Trip{
     constructor(coordinatesArray, departure, destination, departureDate, returnDate, cabin, tt, flightSchedule, returnSchedule, adultAmount, childAmount, departureScheduleSelected, returnScheduleSelected){
-        this.coordinatesArray = coordinatesArray
+        this.coordinatesArray = coordinatesArray;
         this.departure = departure;
         this.destination = destination;
         this.departureDate = departureDate;
