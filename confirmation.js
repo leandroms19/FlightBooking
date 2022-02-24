@@ -12,16 +12,16 @@ document.querySelector('.confirmation-panel').innerHTML = `
                 </div>
                 <div class="ticket-destination">
                     <div class="ticket-departure">
-                        <div><h3>De </h3>${tripParsedConfirmation.departure}</div>
+                        <div class="confirmation-location"><h3>De </h3>${tripParsedConfirmation.departure}</div>
                         <div><h3>Voo </h3> ${tripParsedConfirmation.departureFlightNumber.replace("Voo", "")}</div>
                         <div><h3>Data </h3> ${tripParsedConfirmation.departureDate}</div>
-                        <div><h3>Horário </h3> ${tripParsedConfirmation.departureScheduleSelected}</div>
+                        <div><h3>Horário </h3> ${tripParsedConfirmation.departureScheduleSelected.replace("Horário: ", "")}</div>
                     </div>
                     <div class="ticket-return">
-                        <div><h3>De </h3>${tripParsedConfirmation.destination}</div>
+                        <div class="confirmation-location"><h3>De </h3>${tripParsedConfirmation.destination}</div>
                         <div><h3>Voo </h3> ${tripParsedConfirmation.returnFlightNumber.replace("Voo", "")}</div>
                         <div><h3>Data </h3> ${tripParsedConfirmation.returnDate}</div>
-                        <div><h3>Horário </h3> ${tripParsedConfirmation.returnScheduleSelected}</div>
+                        <div><h3>Horário </h3> ${tripParsedConfirmation.returnScheduleSelected.replace("Horário: ", "")}</div>
                     </div>
                 </div>
                 <div class="ticket-footer"></div>
@@ -38,7 +38,7 @@ document.querySelector('.confirmation-panel').innerHTML = `
                     <div><h3>Crianças </h3> ${tripParsedConfirmation.childAmount}</div>
                 </div>
                 <div class="total-price">
-                    <div><h3>Valor Total </h3>R$${tripParsedConfirmation.totalPrice},00</div>
+                    <div><span>Valor Total </span>R$${tripParsedConfirmation.totalPrice},00</div>
                 </div>
             </div>
             <div class="ticket-footer" style="position: absolute; width: 100%"></div>

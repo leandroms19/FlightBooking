@@ -78,21 +78,52 @@ document.querySelector('.change-flights-selected-btn').addEventListener('click',
     window.location.href = "index.html";
 });
 
+/*function displayHeaderSchedule(){
+    let htmlDepartureScheduleHeader, htmlReturnScheduleHeader;
+
+    htmlDepartureScheduleHeader = `
+        <div class="schedule-header-info">
+            <div class='ds'>${tripParsed.destination}</div>
+            <span>></span>
+            <div class='rs'>${tripParsed.departure}</div>
+        </div>
+    `,
+
+    htmlReturnScheduleHeader = `
+        <div class="schedule-header-info">
+            <div class='ds'>${tripParsed.destination}</div>
+            <span>></span>
+            <div class='rs'>${tripParsed.departure}</div>
+        </div>
+    `,
+
+    document.querySelector('.departure-header').innerHTML = htmlDepartureScheduleHeader;
+    document.querySelector('.return-header').innerHTML = htmlReturnScheduleHeader
+}*/
 
 
 
 function displayFlightSchedule(){
-    let htmlDeparture, htmlDestination,
+    let htmlDeparture, htmlDestination, htmlDepartureScheduleHeader, htmlReturnScheduleHeader;
 //<div class="material-icons" style="transform: rotate(270deg);">flight</div>
     showing = true;
     for(var i = 0; i < 2; i++){
         if(i == 0){
+
+    htmlDepartureScheduleHeader = `
+        <div class="card" id="departure-header-info">
+            <div class="card-header-type">Voo(s) de Ida <span class="material-icons" style="transform: rotate(90deg);">flight</span></div>
+            <div class="card-header-locations">
+                <div class='ds'>${tripParsed.departure}</div>
+                <span>></span>
+                <div class='rs'>${tripParsed.destination}</div>
+            </div>
             
+        </div>
+    `,
             htmlDeparture = tripParsed.departureSchedule.map(fs => `
             <div class="card" id="departure-card">
                     <div class="card-header">
-                        <div class="card-header-type">Ida <span class="material-icons" style="transform: rotate(270deg);">flight</span></div>
-                        
                         <div class="flight-number">Voo ${flightNumberGenarator()}</div>
                         <div class='schedule-suggestions'>${fs}</div>
                     </div>
@@ -102,44 +133,48 @@ function displayFlightSchedule(){
                 </div>
             </div>
             `).join(''); 
+           // document.querySelector('.departure-header').innerHTML = htmlDepartureScheduleHeader;
+   // document.querySelector('.return-header').innerHTML = htmlReturnScheduleHeader
         }
         
         else if(i == 1){
-            htmlDestination = tripParsed.returnSchedule.map(fs => `
-            <div class="card" id="return-card">
-                <div card-info>
-                    <div class="card-header">
-                        <span class="card-header-type">Volta</span>
-                        <span class="material-icons" style="transform: rotate(270deg);">flight</span>
-                        <div class="flight-number">Voo ${flightNumberGenarator()}</div>
-                    </div>
-                
-                    <div class="card-locations">
+            htmlReturnScheduleHeader = `
+                <div class="card" id="return-header-info">
+                    <div class="card-header-type">Voo(s) de Volta <span class="material-icons" style="transform: rotate(270deg);">flight</span></div>
+                    <div class="card-header-locations">
                         <div class='ds'>${tripParsed.destination}</div>
                         <span>></span>
                         <div class='rs'>${tripParsed.departure}</div>
                     </div>
+                    
                 </div>
-                
+            `,
+
+            htmlDestination = tripParsed.returnSchedule.map(fs => `
+            <div class="card" id="return-card">
+                    <div class="card-header">
+                        <div class="flight-number">Voo ${flightNumberGenarator()}</div>
+                        <div class='schedule-suggestions'>${fs}</div>
+                    </div>
+               
                 <div class="card-price">
                     <div id="return-price">R$ ${ticketPrice(distancia) + ",00"}</div>
                 </div>
-                
-                <div class='schedule-suggestions'>${fs}</div>
             </div>
         `).join(''); 
         } 
 
         if(tripParsed.tt == 'ida e volta'){
-            departureSchedulePanel.innerHTML = htmlDeparture; 
-            returnSchedulePanel.innerHTML = htmlDestination;
+            departureSchedulePanel.innerHTML =  htmlDepartureScheduleHeader + htmlDeparture; 
+            returnSchedulePanel.innerHTML = htmlReturnScheduleHeader + htmlDestination;
         }
         else if(tripParsed.tt = 'somente ida'){
             departureSchedulePanel.innerHTML = htmlDeparture;
         }
     }
     
-    
+    //document.querySelector('.departure-header').innerHTML = htmlDepartureScheduleHeader;
+    //document.querySelector('.return-header').innerHTML = htmlReturnScheduleHeader
     displaySelectedFlights(departureSchedulePanel, returnSchedulePanel)
 }
 
@@ -157,10 +192,11 @@ function displaySelectedFlights(departureSchedulePanel, returnSchedulePanel){
                         <div>Ida - <span id="departure-flight-number-selected" style="color: rgb(5, 145, 138);">${item.querySelector('.flight-number').innerHTML}</span></div>
                         <div >${tripParsed.departureDate}</div>
                         <div class='departure-return-selected'>
-                            <div>${tripParsed.departure} - ${tripParsed.destination}</div>
+                            <div>${tripParsed.departure}</div>
+                            <div>${tripParsed.destination}</div>
                         </div>
                             
-                        <div id="departure-schedule-selected">${item.querySelector('.schedule-suggestions').innerHTML}</div>
+                        <div id="departure-schedule-selected">Horário: ${item.querySelector('.schedule-suggestions').innerHTML}</div>
                         <div class="price">${item.querySelector('#departure-price').innerHTML}</div>
                     </div>
                     <div id="change-button-departure" class="change-button">
@@ -181,10 +217,11 @@ function displaySelectedFlights(departureSchedulePanel, returnSchedulePanel){
                         <div>${tripParsed.returnDate}</div>
 
                         <div class='return-departure-selected'>
-                            <div>${tripParsed.destination} - ${tripParsed.departure}</div>
+                        <div>${tripParsed.destination}</div>
+                        <div>${tripParsed.departure}</div>
                         </div>
                             
-                        <div id="return-schedule-selected">${item.querySelector('.schedule-suggestions').innerHTML}</div>
+                        <div id="return-schedule-selected">Horário: ${item.querySelector('.schedule-suggestions').innerHTML}</div>
                         <div class="price">${item.querySelector('#return-price').innerHTML}</div>
                     </div>
                     <div id="change-button-return" class="change-button">

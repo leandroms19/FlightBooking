@@ -27,8 +27,6 @@ body{
     margin-left: 15px;
 }
 
-
-
 .main{
     max-height: 100vh;
     height: calc(100vh - 80px);
@@ -46,7 +44,7 @@ body{
     border-right: 1px solid rgb(199, 199, 199);
     border-left: 1px solid rgb(199, 199, 199);
     border-radius: 20px;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .ticket{
@@ -122,44 +120,43 @@ h3{
 }
 
 
-.ticket-departure{
+.ticket-departure, .ticket-return{
     display: flex;
-    justify-content: space-evenly;
-    margin: 65px 100px 50px 100px;
+    align-items: center;
+    margin-top: 80px;
+    padding-left: 10px;
+    width: 100%;
 }
+
+.ticket-return{
+    margin-top: 40px;
+}
+
 
 .ticket-departure div, .ticket-return div, .passangers div, .cabin div{
-    font-size: 26px;
-    width: 25%;
+    font-size: 22px;
+    width: 20%;
 }
 
+.ticket-departure .confirmation-location,.ticket-return .confirmation-location{
+    width: 80%;
+    overflow-x: hidden;
+}
 
 
 .passangers div, .cabin div{
+    display: flex;
     font-size: 22px;
     align-items: center;
     padding-bottom: 20px;
 }
 
-.passangers div, .cabin div{
-    display: flex;
-}
-
-
-.passangers div{
-    margin: 40px 30px 80px 0;
-}
 
 .ticket-sidebar h3{
     font-size: 18px;
     margin-bottom: 15px;
 }
 
-.ticket-return{
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0 100px 0 100px;
-}
 
 .ticket-footer{
     margin-top: auto;
@@ -195,27 +192,41 @@ h3{
 
 .passangers{
     display: flex;
+    flex-direction: column;
     margin: 0 50px 0 20px;
 }
 
 
 
 .cabin{
-    margin-top: 34px;
+    margin-top: 88px;
     margin-left: 20px;
 }
 
 .total-price{
     height: 100px;
     width: 100%;
-    border: 2px solid rgb(129,129,129);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .total-price div{
+    border: 2px solid rgb(129,129,129);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     font-size: 26px;
+    width: 80%;
+    height: 90%;
+}
+
+.total-price div span{
+    font-size: 18px;
+    color: rgb(129, 129, 129);
+    display: flex;
+    justify-content: center;
 }
 
 .message{
