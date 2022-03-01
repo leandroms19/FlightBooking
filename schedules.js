@@ -1,5 +1,5 @@
-
-let tripParsed = JSON.parse(sessionStorage.getItem('trip'))
+let tripParsed = JSON.parse(sessionStorage.getItem('trip'));
+console.log(tripParsed.tt)
 const departureSchedulePanel = document.querySelector('#departure-schedule')
 const returnSchedulePanel = document.querySelector('#return-schedule')
 const headerInfo = document.querySelector('.header-info');
@@ -73,7 +73,7 @@ function displayHeaderInfo(){
 
 document.querySelector('.change-flights-selected-btn').addEventListener('click', () =>{
     
-    //sessionStorage.setItem('tripInput', JSON.stringify(tripParsed))
+    sessionStorage.setItem('tripInput', JSON.stringify(tripParsed))
     console.log(tripParsed)
     window.location.href = "index.html";
 });
@@ -108,7 +108,7 @@ function displayFlightSchedule(){
 //<div class="material-icons" style="transform: rotate(270deg);">flight</div>
     showing = true;
     for(var i = 0; i < 2; i++){
-        if(i == 0){
+        if(i == 0 ){
 
     htmlDepartureScheduleHeader = `
         <div class="card" id="departure-header-info">
@@ -164,12 +164,15 @@ function displayFlightSchedule(){
         `).join(''); 
         } 
 
-        if(tripParsed.tt == 'ida e volta'){
+        if(tripParsed.tt == 'Ida e volta'){
             departureSchedulePanel.innerHTML =  htmlDepartureScheduleHeader + htmlDeparture; 
             returnSchedulePanel.innerHTML = htmlReturnScheduleHeader + htmlDestination;
         }
-        else if(tripParsed.tt = 'somente ida'){
-            departureSchedulePanel.innerHTML = htmlDeparture;
+        else if(tripParsed.tt = 'Somente ida'){
+            returnSchedulePanel.style.display = 'none'
+            
+            departureSchedulePanel.style.justifyContent = 'center'
+            departureSchedulePanel.innerHTML = htmlDepartureScheduleHeader + htmlDeparture;
         }
     }
     
@@ -297,7 +300,7 @@ function animateBookButton(){
 
 
 document.querySelector('button').addEventListener('click', () => {
-    if(tripParsed.tt == 'ida e volta'){
+    if(tripParsed.tt == 'Ida e volta'){
         if(document.querySelector('.after').contains(document.querySelector('#card-selected-departure')) && document.querySelector('.after').contains(document.querySelector('#card-selected-return'))){
             tripParsed.departureScheduleSelected = document.querySelector('#departure-schedule-selected').innerHTML
             tripParsed.returnScheduleSelected = document.querySelector('#return-schedule-selected').innerHTML
@@ -310,16 +313,32 @@ document.querySelector('button').addEventListener('click', () => {
             alert('Você precisa selecionar um voo de ida e um de volta')
         }
     }
+    else if(tripParsed.tt = 'Somente ida'){
+        if(document.querySelector('.after').contains(document.querySelector('#card-selected-departure'))){
+            tripParsed.departureScheduleSelected = document.querySelector('#departure-schedule-selected').innerHTML
+            tripParsed.departureFlightNumber = document.querySelector('#departure-flight-number-selected').innerHTML
+            animateBookButton();
+            checkAnimationEnding();
+        }
+        else{
+            alert('Você precisa selecionar o voo de ida')
+        }
+    }
 })
 
 
 function checkAnimationEnding(){
+    let returnPrice;
+    const departurePrice = parseFloat(document.querySelector('#departure-price').innerHTML.replace("R$", ""))
     $('#airplane-button-id').on('animationend webkitAnimationEnd', function() { 
-        const departurePrice = parseFloat(document.querySelector('#departure-price').innerHTML.replace("R$", ""))
-        const returnPrice = parseFloat(document.querySelector('#return-price').innerHTML.replace("R$", ""))
+        if(tripParsed.tt == 'Ida e volta'){
+            returnPrice = parseFloat(document.querySelector('#return-price').innerHTML.replace("R$", ""))
+        }
+        else if(tripParsed.tt == 'Somente ida'){
+            returnPrice = 0;
+        }
         const totalPrice = departurePrice + returnPrice;
-        tripParsed.totalPrice = totalPrice
-        console.log(tripParsed)
+        tripParsed.totalPrice = totalPrice;
         sessionStorage.setItem('trip', JSON.stringify(tripParsed))
         window.location.href = "confirmation.html";
     });

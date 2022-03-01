@@ -144,7 +144,7 @@ h3{
 }
 
 
-.passangers div, .cabin div{
+.passangers div, .cabin div, .trip-type-confirmation div{
     display: flex;
     font-size: 22px;
     align-items: center;
@@ -172,6 +172,9 @@ h3{
     width: 30%;
     height: 100%;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .ticket-sidebar:before{
@@ -196,11 +199,17 @@ h3{
     margin: 0 50px 0 20px;
 }
 
+.trip-type-confirmation{ 
+    margin: 10px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
 
 
 .cabin{
-    margin-top: 88px;
-    margin-left: 20px;
+   margin-left: 20px;
 }
 
 .total-price{

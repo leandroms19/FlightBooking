@@ -5,55 +5,33 @@ body{
     width: 100vw;
     max-height: 100vh;
     font-family: 'Open Sans', sans-serif;
+    background-image: url('aviaoBg.jpg');
+    background-position: 0 -130px ;
 }
 
 .container{
-    background-color: rgba(255, 255, 255);
     max-height: 100vh;
     height: 100%;
     max-width: 1000px;
     width: 100%;
     margin: 0 auto;
+    
 }
 
 .top-nav{
     margin: 0;
     padding: 0;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgb(38,38,38);
     height: 80px;
     width: 100%;   
 }
 
-.top-nav ul{
-    float: right;
-    margin-right: 20px;
-    margin-top: 0;
-    height: 80px;
-}
-
-.top-nav ul li{
-    display: inline-block;
-    line-height: 80px;
-    text-align: center;
-}
-
-.top-nav ul li a {
-    color: white;
-    font-size: 16px;
-    text-decoration: none;
-    display: inline-block;
-    width: 100px;
-}
-
-.top-nav ul li a:hover{
-    background-color: rgb(129,129,129);
-    transition: 0.5s;
-}
 
 
 .logo{
-    margin: 0;
     height: 80px;
     width: 80px;
     margin-left: 15px;
@@ -72,7 +50,7 @@ body{
 }
 
 h4{
-    color: rgb(129, 129, 129);
+    color: rgb(38,38,38);
     font-size: 16px;
 }
 .panel{
@@ -81,12 +59,10 @@ h4{
     width: 100%;
     max-width: 100vw;
     border: 1px solid rgb(199, 199, 199);
-    box-shadow: 1px 1px 3px rgb(199, 199, 199);
     margin-bottom: 100px;
-    background-image: url('aviaoBg.jpg');
-    background-position: center;
-    background-color: rgba(255,255,255,0.9);
-    background-blend-mode: lighten;
+    background: white;
+    background: linear-gradient(to right bottom,rgba(255,255,255,0.7), rgba(255,255,255,0.3));
+    backdrop-filter: blur(2rem);
 }
 
 
@@ -137,14 +113,55 @@ input[type='text']{
     justify-content: space-between;
     position: absolute;
     margin-top: 45px;
-    height: 95px;
+    height: 150px;
     width: 100%;
     max-width: 1000px;
+    z-index: -1;
 }
 
 #departure-suggestion, #destination-suggestion{
-    visibility: hidden;
+    border-bottom: 1px solid rgb(199, 199, 199);
+    height: 100%;
+    overflow-y: auto;
 }
+
+#departure-suggestion{
+    float: left;
+}
+
+#destination-suggestion{
+    float: right;
+}
+
+#departure-suggestion .card, #destination-suggestion .card{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    height: 40px;
+    cursor: pointer;
+    padding-left: 3px;
+    border-bottom: 1px solid rgb(199, 199, 199);
+}
+
+#departure-suggestion .card:hover{
+    background-color: rgb(250,250,250);
+    transform: translateY(-5px);
+    box-shadow: 3px 0 5px rgb(199, 199, 199);
+}
+
+#destination-suggestion .card:hover{
+    background-color: rgb(250,250,250);
+    transform: translateY(-5px);
+    box-shadow: 3px 0 5px rgb(199, 199, 199);
+}
+
+.location-suggestion::-webkit-scrollbar {
+    width: 8px; 
+}
+
+.location-suggestion::-webkit-scrollbar-thumb {
+    background: rgb(199, 199, 199);
+} 
 
 
 .search-location{
@@ -159,7 +176,7 @@ input[type='text']{
     overflow-y: auto;
     overflow-x: hidden;
     background-color: white;
-    box-shadow: 1px 1px 3px rgb(129, 129, 129);
+    box-shadow: 1px 1px 5px rgb(129, 129, 129);
     z-index: 9;
 }
 
@@ -170,7 +187,6 @@ input[type='text']{
     border-bottom: 1px solid rgb(199, 199, 199);
     margin: 0;
 }
-
 
 
 .text-suggestion{
@@ -217,6 +233,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     margin: 20px 0 20px 0;
     font-size: 14px;
+    z-index: 9;
 }
 
 button{
@@ -377,7 +394,24 @@ img{
 }
 
 
+.loader {
+    cursor: default;
+    margin: 0;
+    padding: 0;
+    border: 2px solid #f3f3f3; /* Light grey */
+    border-top: 2px solid rgb(5, 145, 138); /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    max-height: 20px;
+    animation: spin 2s linear infinite;
 
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
 
 
