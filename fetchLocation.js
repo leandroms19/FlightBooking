@@ -75,7 +75,13 @@ let coordinates = {
         + "&units=metric&appid=" 
         + this.apiKey)
         .then((response) => response.json())
-        .then((data) => this.displayLocation(data, eID));
+        .then((data) => this.displayLocation(data, eID))
+        .catch(() => {
+            document.querySelector('.loader').style.display = 'none';
+            removeLoadAnimation(eID)
+            alert('Erro: Não foi encontrada nenhuma cidade :(')
+            
+        });
     },
 
     displayLocation: function(data, eID){
@@ -145,35 +151,47 @@ const fetchAirportsCoordinates = function(lat, lon, eID){
 
 function fetchIataCode(data, eID){
     let iataCodeCount = 0
-    data.map(iataCode => {
-        iataCodeCount++
-        fetch("https://airport-info.p.rapidapi.com/airport?iata=" + iataCode.iataCode + "" , {
-        "method": "GET",
-        "headers": {
-            "x-rapidapi-host": "airport-info.p.rapidapi.com",
-            "x-rapidapi-key": "77dd87ca86msh174b5248aa25b9cp1a6920jsn855ea670735d"
-        }
-        })                                                      
-    .then((response) => response.json())
-    .then((data) => this.pushAirportNameIntoArray(data, eID, iataCodeCount))
-    })
-    
+    if(data.length == 0){
+        alert('Erro: Não foi encontrado aeroportos próximo a essa região! :(')
+        removeLoadAnimation(eID)
+    }
+    else if(data.length > 0){
+        data.map(iataCode => {
+            iataCodeCount++
+            fetch("https://airport-info.p.rapidapi.com/airport?iata=" + iataCode.iataCode + "" , {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "airport-info.p.rapidapi.com",
+                "x-rapidapi-key": "77dd87ca86msh174b5248aa25b9cp1a6920jsn855ea670735d"
+            }
+            })                                                      
+        .then((response) => response.json())
+        .then((data) => this.pushAirportNameIntoArray(data, eID, iataCodeCount))
+        })
+    }
 }
 
 
 function pushAirportNameIntoArray(data,  eID, iataCodeCount){
     if(eID == 'search-departures'){
-        airportNamesDepartureArray.push(data.name)
-        if(airportNamesDepartureArray.length == iataCodeCount){
-            outputHtml(airportNamesDepartureArray, eID)
-        }
+        airportNamesDepartureArray.push(data.name + ' - ' + data.iata)
+        outputHtml(airportNamesDepartureArray, eID)
     }
     else if(eID == 'search-destinations'){
-        airportNamesDestinationArray.push(data.name)  
-        if(airportNamesDestinationArray.length == iataCodeCount){
-            outputHtml(airportNamesDestinationArray, eID)
-        }  
+        airportNamesDestinationArray.push(data.name  + ' - ' + data.iata) 
+        outputHtml(airportNamesDestinationArray, eID)
     }
-    
 }
-    
+
+function removeLoadAnimation(eID){
+    if(eID == 'search-departures'){
+        document.querySelector('#departure').value = '';
+        document.querySelector('#search-departures').classList.add('material-icons');
+        document.querySelector('#search-departures').innerText = 'search';
+    }
+    else if(eID == 'search-destinations'){
+        document.querySelector('#destination').value = '';
+        document.querySelector('#search-destinations').classList.add('material-icons');
+        document.querySelector('#search-destinations').innerText = 'search';
+    }
+}

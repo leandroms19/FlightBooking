@@ -10,10 +10,6 @@ let childAmount = parseInt(document.querySelector('#child-amount').innerHTML);
 const increaseButtons = document.querySelectorAll('.increase');
 const decreaseButtons = document.querySelectorAll('.decrease');
 let departureCity, destinationCity;
-//let trip;
-//const departureSchedulePanel = document.querySelector('#departure-schedule')
-//const returnSchedulePanel = document.querySelector('#return-schedule')
-//const headerInfo = document.querySelector('.header-info');
 let tt;
 minimumDatePicker();
 
@@ -26,7 +22,6 @@ document.querySelector('#search-departures').addEventListener('click', () => {
 })
 
 document.querySelector('#search-destinations').addEventListener('click', () => {
-    console
     document.querySelector('#search-destinations').classList.remove('material-icons')
     document.querySelector('#search-destinations').innerText = ''
     document.querySelector('#search-destinations').innerHTML = `
@@ -37,45 +32,55 @@ document.querySelector('#search-destinations').addEventListener('click', () => {
 
 function minimumDatePicker(){
     var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
-
-        if (dd < 10) {
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
         dd = '0' + dd;
-        }
-
-        if (mm < 10) {
+    }
+    if (mm < 10) {
         mm = '0' + mm;
-        } 
+    } 
             
-        today = yyyy + '-' + mm + '-' + dd;
-        document.querySelector("#departure-date").setAttribute("min", today);
+    today = yyyy + '-' + mm + '-' + dd;
+    document.querySelector("#departure-date").setAttribute("min", today);
 }
 
 
-function FormataStringData(data) {
+function FormatStringDate(data) {
     var day  = data.split("/")[0];
     var month  = data.split("/")[1];
     var year  = data.split("/")[2];
   
     return year + '-' + ("0"+month).slice(-2) + '-' + ("0"+day).slice(-2);
-  }
+}
 
 window.addEventListener('load', () => {
     let tripInput = JSON.parse(sessionStorage.getItem('trip'))
-    let tripInfo = JSON.parse(sessionStorage.getItem('tripInput'))
-    if(tripInput == null || tripInfo == null){
+    
+    if(tripInput == null){
         console.log('session storage vazio')
     }
-    else if(tripInput != null || tripInfo != null){
+    
+    else if(tripInput != null){
+         if(tripInput.tt == 'Somente Ida'){
+            activateBackgroundTypeTrip(oneWayButton);
+            standardTypeTrip(roundTripButton);
+            document.querySelector('#return-date').style.visibility = 'hidden';
+        }
         document.querySelector('#departure').value = tripInput.departureCity;
         document.querySelector('#destination').value = tripInput.destinationCity;
-        document.querySelector('#departure-date').value = FormataStringData(tripInput.departureDate);
-        document.querySelector('#return-date').value = FormataStringData(tripInput.returnDate);
+        document.querySelector('#departure-date').value = FormatStringDate(tripInput.departureDate);
+        document.querySelector('#return-date').value = FormatStringDate(tripInput.returnDate);
         document.querySelector('#adult-amount').innerHTML = tripInput.adultAmount;
         document.querySelector('#child-amount').innerHTML = tripInput.childAmount;
-        if(tripInput.cabin == 'Econômica' || tripInfo.cabin == 'Econômica'){
+    
+        if(tripInput.tt == 'Somente ida'){
+            activateBackgroundTypeTrip(oneWayButton);
+            standardTypeTrip(roundTripButton);
+            document.querySelector('#return-date').style.visibility = 'hidden';
+        }
+        else if(tripInput.cabin == 'Econômica' || tripInfo.cabin == 'Econômica'){
             document.querySelector('#economic').checked = true;
             document.querySelector('#first-class').checked = false;
     
@@ -84,17 +89,17 @@ window.addEventListener('load', () => {
             document.querySelector('#economic').checked = false;
             document.querySelector('#first-class').checked = true;
         }
-        sessionStorage.removeItem('trip');
+        
     }
+    sessionStorage.removeItem('trip');
 })
 
 
 
 function outputHtml(airportNames, eID){
-    console.log(eID)
     if(airportNames.length > 0){
         const html = airportNames.map(airporSuggestion => {
-            if(airporSuggestion != undefined){
+            if(airporSuggestion != undefined + ' - ' + undefined){
                 return `
                 <div class="card">
                     <span class="text-suggestion">${airporSuggestion}</span>
@@ -122,42 +127,36 @@ function outputHtml(airportNames, eID){
             suggestions.style.zIndex = '9'
          }
     }
-    handleLocationSelected();
     
-    /*if(departureSuggestions.innerHTML != '' && destinationSuggestions.innerHTML != ''){
-        if(departureSuggestions.innerHTML != ''){
-            document.querySelector('#search-departures').classList.add('material-icons');
-            document.querySelector('#search-departures').innerText = 'search';
-            document.querySelector('#departure-suggestion').style.display = 'block';
-        }   
-        else if(destinationSuggestions.innerHTML != ''){
-            document.querySelector('#search-destinations').classList.add('material-icons');
-            document.querySelector('#search-destinations').innerText = 'search';
-            document.querySelector('#destination-suggestion').style.display = 'block';
-            
-        }
-        
-    }*/
+    handleLocationSelected();
     
 }
 
+
+let departureSuggestionClicked = false;
+let destinationSuggestionClicked = false;
 function handleLocationSelected(){
     document.querySelectorAll('.text-suggestion').forEach(item => {
         item.addEventListener('click', function(e){
             if(item.parentNode.parentNode.id == 'departure-suggestion'){
+                departureSuggestionClicked = true;
                 document.querySelector('#departure').value = item.innerHTML;
                 departureSuggestions.style.display = 'none';
                 document.querySelector('.child-adult').style.zIndex = '9';
-            suggestions.style.zIndex = '-1'
+                suggestions.style.zIndex = '-1';
+                console.log(departureSuggestionClicked);
             }
             else if(item.parentNode.parentNode.id == 'destination-suggestion'){
+                destinationSuggestionClicked = true;
                 document.querySelector('#destination').value = item.innerHTML;
                 destinationSuggestions.style.display = 'none';
                 document.querySelector('.child-adult').style.zIndex = '9';
-            suggestions.style.zIndex = '-1'
+                suggestions.style.zIndex = '-1';
+                console.log(destinationSuggestionClicked);
             }
         });
     });
+    
 }
 
 
@@ -192,12 +191,14 @@ document.querySelector('#round-trip').addEventListener('click', () => {
     activateBackgroundTypeTrip(roundTripButton);
     standardTypeTrip(oneWayButton);
     document.querySelector('#return-date').style.visibility = 'visible'
+    document.querySelector('#return-date-error-message').style.display = 'block'
 });
 
 document.querySelector('#one-way').addEventListener('click', () => {
     activateBackgroundTypeTrip(oneWayButton);
     standardTypeTrip(roundTripButton);
     document.querySelector('#return-date').style.visibility = 'hidden';
+    document.querySelector('#return-date-error-message').style.display = 'none'
 });
 /***************************************************************/
 
@@ -267,21 +268,93 @@ function getInfo(){
     const departure = (document.querySelector('#departure').value).charAt(0).toUpperCase() + (document.querySelector('#departure').value).slice(1);
     const destination = (document.querySelector('#destination').value).charAt(0).toUpperCase() + (document.querySelector('#destination').value).slice(1);;
     let cabin = document.querySelector('input[name="cabin"]:checked').value;
-    const departureDateInput = document.querySelector('#departure-date').value;
-    const returnDateInput = document.querySelector('#return-date').value;
-    const dd = new Date(departureDateInput);
-    const dr = new Date(returnDateInput)
-    const departureDate = dd.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-    const returnDate = dr.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+    let departureDateInput = document.querySelector('#departure-date').value;
+    let returnDateInput = document.querySelector('#return-date').value;
+    let dd = new Date(departureDateInput);
+    let dr = new Date(returnDateInput)
+    let departureDate = dd.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+    let returnDate = dr.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+    
     tripType();
     getAllCoordinates(coordinatesArray);
     randomizeSchedule(departureSchedules);
-    randomizeSchedule(returnSchedules)
-    let trip = new Trip(coordinatesArray, departureCity, destinationCity, departure, destination, departureDate, returnDate, cabin, tt, departureSchedules, returnSchedules,  adultAmount, childAmount, departureScheduleSelected, returnScheduleSelected);
+    randomizeSchedule(returnSchedules);
+   
+    validateForm(departure, destination, departureDateInput, returnDateInput, cabin, departureDate, returnDate, departureScheduleSelected, returnScheduleSelected);
     
-   sessionStorage.setItem('trip', JSON.stringify(trip))
-   console.log(departureCity, destinationCity)
-   window.location.href = "flights-schedule.html";
+    
+   
+}
+
+function validateForm(departure, destination, departureDateInput, returnDateInput, cabin, departureDate, returnDate, departureScheduleSelected, returnScheduleSelected){
+    inputValidateCount = 0;
+    inputsToCheckArray = [departure,destination,departureDateInput,returnDateInput, adultAmount, tt]
+    console.log(inputsToCheckArray)
+    inputsToCheckArray.forEach(function(value, index) {
+        console.log(departureSuggestionClicked, destinationSuggestionClicked)
+        if((index == 0 && value == '') || (index == 0 && value != '' && departureSuggestionClicked == false)){
+            document.querySelector('#departure').style.borderBottom = '1px solid red';
+            document.querySelector('#search-departures').style.borderBottom = '1px solid red';
+            document.querySelector('#departure-error-message').style.display = 'block';
+            document.querySelector('#departure-error-message').innerText = 'Necessário escolher uma cidade de origem!';
+        }
+        else if(index == 0 && value != '' && departureSuggestionClicked == true){
+            inputValidateCount += 1;
+            document.querySelector('#departure').style.borderBottom = '1px solid rgb(199,199,199)';
+            document.querySelector('#search-departures').style.borderBottom = '1px solid rgb(199,199,199)';
+            document.querySelector('#departure-error-message').style.display = 'none';
+        }
+        else if((index == 1 && value == '') || (index == 1 && value != '' && destinationSuggestionClicked == false)){
+            document.querySelector('#destination').style.borderBottom = '1px solid red';
+            document.querySelector('#search-destinations').style.borderBottom = '1px solid red';
+            document.querySelector('#destination-error-message').style.display = 'block';
+            document.querySelector('#destination-error-message').innerText = 'Necessário escolher uma cidade de destino!';
+        }
+        else if(index == 1 && value != '' && destinationSuggestionClicked == true){
+            inputValidateCount += 1;
+            document.querySelector('#destination').style.borderBottom = '1px solid rgb(199,199,199)';
+            document.querySelector('#search-destinations').style.borderBottom = '1px solid rgb(199,199,199)';
+            document.querySelector('#destination-error-message').style.display = 'none';
+        }
+        else if(index == 2 && value == ''){
+            document.querySelector('#departure-date').style.borderBottom = '1px solid red';
+            document.querySelector('#departure-date-error-message').style.display = 'block';
+            document.querySelector('#departure-date-error-message').innerText = 'Necessário escolher uma data de partida!';
+        }
+        else if(index == 2 && value != ''){
+            inputValidateCount += 1
+            document.querySelector('#departure-date').style.borderBottom = '1px solid rgb(199, 199, 199)';
+            document.querySelector('#departure-date-error-message').style.display = 'none';
+        }
+        else if(index == 3 && value == '' && tt == 'Ida e volta'){
+            document.querySelector('#return-date').style.borderBottom = '1px solid red';
+            document.querySelector('#return-date-error-message').style.display = 'block';
+            document.querySelector('#return-date-error-message').innerText = 'Necessário escolher uma data de chegada!';
+            
+        }
+        else if(index == 3 && value != ''){
+            inputValidateCount += 1;
+            document.querySelector('#return-date').style.borderBottom = '1px solid rgb(199,199,199)';
+            document.querySelector('#return-date-error-message').style.display = 'none';
+        }
+        else if(index == 4 && value == '' || index == 4 && value == 0){
+            document.querySelector('#adult-amount-error-message').style.display = 'block';
+            document.querySelector('#adult-amount-error-message').innerText = 'A quantidade de adulto(s) deve ser maior que um!';
+        } 
+        else if(index == 4 && value != '' || index == 4 && value >= 1){
+            inputValidateCount += 1
+        } 
+        
+    })
+    if(inputValidateCount == 5){
+
+        console.log('validado')
+        let trip = new Trip(coordinatesArray, departureCity, destinationCity, departure, destination, departureDate, returnDate, cabin, tt, departureSchedules, returnSchedules,  adultAmount, childAmount, departureScheduleSelected, returnScheduleSelected);
+        sessionStorage.setItem('trip', JSON.stringify(trip))
+        window.location.href = "flights-schedule.html";
+        
+    }
+    console.log(inputValidateCount)
 }
 
 function tripType(){
@@ -302,22 +375,6 @@ function getAllCoordinates(coordinatesArray){
         console.log('Ainda nao possui todas as coordenadas')
     }
 }
-/*function calculateDistance(coordinatesArray){
-    const R = 6371e3; // metres
-    const φ1 = coordinatesArray[0].departureLat * Math.PI/180; // φ, λ in radians
-    const φ2 = coordinatesArray[1].destinationLat * Math.PI/180;
-    const Δφ = (coordinatesArray[1].destinationLat - coordinatesArray[0].departureLat) * Math.PI/180;
-    const Δλ = (coordinatesArray[1].destinantionLong - coordinatesArray[0].departureLong) * Math.PI/180;
-    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-    const d = (R * c) / 1000; // in metres
-    
-    console.log('Distância: ' + d)
-    ticketPrice(d)
-}*/
-
-
 
 
 function randomizeSchedule(scheduleArray){
@@ -340,132 +397,3 @@ function randomizeSchedule(scheduleArray){
     }
     return scheduleArray;
 }
-
-/*<div class="flight-resume">
-<span>Resumo do Voo</span>
-</div>*/
-
-/*function displayHeaderInfo(trip){
-    const headerInfoHTML = `
-   
-    <div class="display-header-flight">
-    
-        <div class="header-flight-dd">
-            <span>Partida: ${trip.departure}</span>
-            <span>Destino:  ${trip.destination}</span>
-        </div>
-        <div class="header-flight-passengers">
-            <span>Passageiros</span>
-            <span>Crianças:  ${trip.childAmount}</span>
-            <span>Adultos: ${trip.adultAmount}</span>
-        </div>
-        <div class="header-flight-dates">
-            <span>Ida: ${trip.departureDate}</span>
-            <span>Volta: ${trip.returnDate}</span>
-        </div>
-        <div class="header-flight-cabin">
-            <span>Cabine</span>
-            <span>${trip.cabin}</span>
-        </div>
-    </div>
-        `;
-    
-    headerInfo.innerHTML = headerInfoHTML;
-
-}
-
-function displayFlightSchedule(trip){
-    showing = true;
-    for(var i = 0; i < 2; i++){
-        if(i == 0){
-            const html = trip.departureSchedule.map(fs => `
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-header-type">Ida</span>
-                    <span class="material-icons">flight</span>
-                    <div class="flight-number">Voo ${flightNumberGenarator()}</div>
-                </div>
-            
-                <div class="card-info">
-                    <div class='rs'>${trip.departure}</div>
-                    <span>></span>
-                    <div class='ds'>${trip.destination}</div>
-                </div>
-                
-                <div class='schedule-suggestions'>${fs}</div>
-            </div>
-            `).join(''); 
-            departureSchedulePanel.innerHTML = html;  
-        }
-        else if(i == 1){
-            const html = trip.returnSchedule.map(fs => `
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-header-type">Volta</span>
-                    <span class="material-icons" style="transform: rotate(270deg);">flight</span>
-                    <div class="flight-number">Voo ${flightNumberGenarator()}</div>
-                </div>
-            
-                <div class="card-info">
-                    <div class='ds'>${trip.destination}</div>
-                    <span>></span>
-                    <div class='rs'>${trip.departure}</div>
-                </div>
-                
-                <div class='schedule-suggestions'>${fs}</div>
-            </div>
-        `).join(''); 
-        returnSchedulePanel.innerHTML = html; 
-        } 
-    }
-    document.querySelectorAll('.card').forEach(item => {
-        item.addEventListener('click', function(e){
-            const rs = item.querySelector('.rs').innerHTML
-            const ds = item.querySelector('.ds').innerHTML
-            const scheduleSuggestion = item.querySelector('.schedule-suggestions').innerHTML
-            console.log(rs, ds, scheduleSuggestion)
-            document.querySelector('.panel-flighs-selected').innerHTML = "Origem: "+ ds + ", Destino: " + rs + ", Horario: " + scheduleSuggestion 
-        });
-    });
-}
-
-function flightNumberGenarator(){
-    let flightNumber = parseInt((Math.random() * 3000) + 5000)
-    return flightNumber;
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-/*const fetchAirportName = function(data){
-    let airportsNamesArray = []
-    const airports = data.NearestAirportResource.Airports.Airport;
-    const airportsCode = airports.map(apc => apc.AirportCode)
-    console.log(airportsCode)
-    airportsCodeLength = airportsCode.length
-    airportsCode.map(apn => fetch("https://api.lufthansa.com/v1/mds-references/airports/" + apn + "?lang=en&limit=20&offset=0&LHoperated=0", {
-        method: 'GET',
-        headers:{
-            'Accept': 'application/json',
-            'Authorization': 'Bearer w2ddahtvrvsmgr72neex5tbm',
-            'X-Originating-IP': '177.9.77.238'
-        }, 
-        
-    }).then((response) => response.json())
-    .then((data) => { 
-        let teste = []
-        teste.push(data)
-        console.log(teste)
-        this.displayAirportName(data)
-    })
-    ) 
-   
-};*/

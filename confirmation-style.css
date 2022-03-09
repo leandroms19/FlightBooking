@@ -212,6 +212,11 @@ h3{
    margin-left: 20px;
 }
 
+.cabin div{
+    display: flex;
+    width: 100%;
+}
+
 .total-price{
     height: 100px;
     width: 100%;

@@ -1,5 +1,4 @@
 let tripParsed = JSON.parse(sessionStorage.getItem('trip'));
-console.log(tripParsed.tt)
 const departureSchedulePanel = document.querySelector('#departure-schedule')
 const returnSchedulePanel = document.querySelector('#return-schedule')
 const headerInfo = document.querySelector('.header-info');
@@ -9,7 +8,6 @@ checkCardsSelected()
 
 
 function calculateDistance(){
-    console.log(tripParsed.coordinatesArray[0].departureLat)
     //Formula found on internet, using only to create random prices based on distance between 2 coordinates
     const R = 6371e3; // metres
     const φ1 = tripParsed.coordinatesArray[0].departureLat * Math.PI/180; // φ, λ in radians
@@ -55,7 +53,7 @@ function displayHeaderInfo(){
         </div>
         <div class="header-flight-dates">
             <span>Ida: ${tripParsed.departureDate}</span>
-            <span>Volta: ${tripParsed.returnDate}</span>
+            <span>Volta: ${checkReturnDate()}</span>
         </div>
         <div class="header-flight-cabin">
             <span>Cabine: ${tripParsed.cabin}</span>
@@ -67,13 +65,22 @@ function displayHeaderInfo(){
         `;
     
     headerInfo.innerHTML = headerInfoHTML;
+}
 
+function checkReturnDate(){
+    console.log(tripParsed.tt)
+    if(tripParsed.tt == 'Somente ida'){
+        return '-'
+    }
+    else if(tripParsed.tt == 'Ida e volta'){
+        return tripParsed.returnDate;
+    }
 }
 
 
 document.querySelector('.change-flights-selected-btn').addEventListener('click', () =>{
     
-    sessionStorage.setItem('tripInput', JSON.stringify(tripParsed))
+    sessionStorage.setItem('trip', JSON.stringify(tripParsed))
     console.log(tripParsed)
     window.location.href = "index.html";
 });
