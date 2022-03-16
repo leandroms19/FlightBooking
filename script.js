@@ -55,6 +55,8 @@ function FormatStringDate(data) {
     return year + '-' + ("0"+month).slice(-2) + '-' + ("0"+day).slice(-2);
 }
 
+
+
 window.addEventListener('load', () => {
     let tripInput = JSON.parse(sessionStorage.getItem('trip'))
     
@@ -91,7 +93,7 @@ window.addEventListener('load', () => {
         }
         
     }
-    sessionStorage.removeItem('trip');
+    //sessionStorage.removeItem('trip');
 })
 
 
@@ -281,9 +283,6 @@ function getInfo(){
     randomizeSchedule(returnSchedules);
    
     validateForm(departure, destination, departureDateInput, returnDateInput, cabin, departureDate, returnDate, departureScheduleSelected, returnScheduleSelected);
-    
-    
-   
 }
 
 function validateForm(departure, destination, departureDateInput, returnDateInput, cabin, departureDate, returnDate, departureScheduleSelected, returnScheduleSelected){
@@ -344,15 +343,11 @@ function validateForm(departure, destination, departureDateInput, returnDateInpu
         else if(index == 4 && value != '' || index == 4 && value >= 1){
             inputValidateCount += 1
         } 
-        
     })
     if(inputValidateCount == 5){
-
-        console.log('validado')
         let trip = new Trip(coordinatesArray, departureCity, destinationCity, departure, destination, departureDate, returnDate, cabin, tt, departureSchedules, returnSchedules,  adultAmount, childAmount, departureScheduleSelected, returnScheduleSelected);
         sessionStorage.setItem('trip', JSON.stringify(trip))
         window.location.href = "flights-schedule.html";
-        
     }
     console.log(inputValidateCount)
 }
@@ -367,13 +362,17 @@ function tripType(){
     return tt;
 }
 
+let hasntAllCoordinates = false
+
 function getAllCoordinates(coordinatesArray){
     if(coordinatesArray.length == 2){
-        return coordinatesArray;
+        console.log(coordinatesArray) ;
     }
-    else{
-        console.log('Ainda nao possui todas as coordenadas')
+    else if(coordinatesArray.length != 2){
+        coordinatesArray = hasntAllCoordinates
+        console.log(coordinatesArray)  
     }
+   
 }
 
 

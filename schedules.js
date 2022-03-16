@@ -7,7 +7,15 @@ document.querySelector('.after').style.display = 'none';
 checkCardsSelected()
 
 
+
+if(tripParsed == null){
+    document.querySelector('.schedules').innerHTML = `
+        <div class="error-message-trip-storage">Error :(</div>
+    `
+    
+}
 function calculateDistance(){
+    
     //Formula found on internet, using only to create random prices based on distance between 2 coordinates
     const R = 6371e3; // metres
     const φ1 = tripParsed.coordinatesArray[0].departureLat * Math.PI/180; // φ, λ in radians
@@ -43,9 +51,9 @@ function displayHeaderInfo(){
     const headerInfoHTML = `
     <div class="display-header-flight">
         <div class="header-flight-dd">
-            <span>Partida: ${tripParsed.departure}</span>
+            <span class="location-header-text">Partida: ${tripParsed.departure}</span>
             <span class="material-icons">flight</span>
-            <span>Destino:  ${tripParsed.destination}</span>
+            <span class="location-header-text">Destino:  ${tripParsed.destination}</span>
         </div>
         <div class="header-flight-passengers">
             <span>Adultos: ${tripParsed.adultAmount}</span>
@@ -65,7 +73,15 @@ function displayHeaderInfo(){
         `;
     
     headerInfo.innerHTML = headerInfoHTML;
+    document.querySelectorAll('.location-header-text').forEach(item => {
+        if (item.offsetWidth + 1 >= item.parentNode.offsetWidth) {
+            item.style.fontSize = '80%'
+        }
+    })
+    
 }
+
+
 
 function checkReturnDate(){
     console.log(tripParsed.tt)
@@ -186,6 +202,18 @@ function displayFlightSchedule(){
     //document.querySelector('.departure-header').innerHTML = htmlDepartureScheduleHeader;
     //document.querySelector('.return-header').innerHTML = htmlReturnScheduleHeader
     displaySelectedFlights(departureSchedulePanel, returnSchedulePanel)
+
+    document.querySelectorAll('.ds').forEach(item => {
+        if (item.offsetWidth + 1 >= item.parentNode.offsetWidth) {
+            item.style.fontSize =  '80%'
+        }
+    })
+
+    document.querySelectorAll('.rs').forEach(item => {
+        if (item.offsetWidth + 1 >= item.parentNode.offsetWidth) {
+            item.style.fontSize = '80%'
+        }
+    })
 }
 
 
@@ -247,20 +275,6 @@ function displaySelectedFlights(departureSchedulePanel, returnSchedulePanel){
     });
 }
 
-/*document.querySelectorAll('.card').forEach(item => {
-    item.addEventListener('mouseover', () => {
-        item.querySelector('.card-price').style.backgroundColor = 'white'
-        item.querySelector('.card-price').style.color = 'rgb(' + 5 + ',' + 145 + ',' + 138 + ')';
-    })
-})
-
-document.querySelectorAll('.card').forEach(item => {
-    item.addEventListener('mouseout', () => {
-        item.querySelector('.card-price').style.backgroundColor ='rgb(' + 5 + ',' + 145 + ',' + 138 + ')';
-        item.querySelector('.card-price').style.color = 'white'
-        
-    })
-})*/
 
 
 function handleChangeFlightButton(){

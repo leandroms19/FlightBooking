@@ -26,6 +26,12 @@ body{
     margin-left: 15px;
 }
 
+.error-message-trip-storage{
+    color: red;
+    font-size: 60px;
+    padding: 20px 10px;
+}
+
 .panel-flights-schedule{
     display: flex;
     height: calc(100vh - 160px);
@@ -99,6 +105,12 @@ body{
     flex-direction: column;
     gap: 0;
     justify-content: space-evenly;
+}
+
+.display-header-flight .location-text-header{
+    overflow: scroll;
+    width: 100%;
+    max-width: 100%;
 }
 
 .display-header-flight .header-flight-dates{
