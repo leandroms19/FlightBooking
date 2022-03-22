@@ -8,7 +8,7 @@ if(tripParsedConfirmation.tt == 'Ida e volta'){
                         <img  src="logo.png">
                     </div>
                     
-                    <div class="ticket-title">Booking Confirmation</div>
+                    <div class="ticket-title">Flight Ticket</div>
                 </div>
                 <div class="ticket-destination">
                     <div class="ticket-departure">
