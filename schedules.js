@@ -84,9 +84,8 @@ function displayHeaderInfo(){
 
 
 function checkReturnDate(){
-    console.log(tripParsed.tt)
     if(tripParsed.tt == 'Somente ida'){
-        return '-'
+        return '-';
     }
     else if(tripParsed.tt == 'Ida e volta'){
         return tripParsed.returnDate;
@@ -96,8 +95,7 @@ function checkReturnDate(){
 
 document.querySelector('.change-flights-selected-btn').addEventListener('click', () =>{
     
-    sessionStorage.setItem('trip', JSON.stringify(tripParsed))
-    console.log(tripParsed)
+    sessionStorage.setItem('trip', JSON.stringify(tripParsed));
     window.location.href = "index.html";
 });
 
@@ -242,11 +240,10 @@ function displaySelectedFlights(departureSchedulePanel, returnSchedulePanel){
                     </div>    
                 </div>
                 `
-                totalPrice += parseFloat(item.querySelector('#departure-price').innerHTML.replace("R$", ""))
-                console.log(totalPrice)
+                totalPrice += parseFloat(item.querySelector('#departure-price').innerHTML.replace("R$", ""));
             }
             else if(item.id == "return-card"){
-                returnSchedulePanel.style.visibility = 'hidden'
+                returnSchedulePanel.style.visibility = 'hidden';
                 
                 document.querySelector('.return-selected').innerHTML = `
                 <div class="card-selected" id="card-selected-return">
@@ -266,8 +263,7 @@ function displaySelectedFlights(departureSchedulePanel, returnSchedulePanel){
                         <span>Alterar</span>
                     </div>    
                 </div>`
-                totalPrice +=  parseFloat(item.querySelector('#return-price').innerHTML.replace("R$", ""))
-                console.log(totalPrice)
+                totalPrice +=  parseFloat(item.querySelector('#return-price').innerHTML.replace("R$", ""));
             }
         handleChangeFlightButton()
         checkCardsSelected();
@@ -299,9 +295,6 @@ function checkCardsSelected(){
         document.querySelector('.before').style.display = 'block';
         document.querySelector('.after').style.display = 'none';
     }
-    else if(document.querySelector('.after').contains(document.querySelector('#card-selected-departure')) || document.querySelector('.after').contains(document.querySelector('#card-selected-return'))){
-        console.log('tem pelo menos 1 dos cards')
-    }
 }
 
 function flightNumberGenarator(){
@@ -314,9 +307,9 @@ function animateBookButton(){
     document.querySelector('button').innerHTML = '';
     var img = document.createElement("img");
     img.src = "airplane-button.png";
-    img.setAttribute('id', 'airplane-button-id')
+    img.setAttribute('id', 'airplane-button-id');
     var src = document.querySelector("button");
-    src.appendChild(img)
+    src.appendChild(img);
 }
 
 

@@ -1,5 +1,4 @@
-let tripParsedConfirmation = JSON.parse(sessionStorage.getItem('trip'))
-console.log(tripParsedConfirmation.tt)
+let tripParsedConfirmation = JSON.parse(sessionStorage.getItem('trip'));
 if(tripParsedConfirmation.tt == 'Ida e volta'){
     document.querySelector('.confirmation-panel').innerHTML = `
     <div class="ticket">
@@ -61,7 +60,7 @@ else if(tripParsedConfirmation.tt == 'Somente ida'){
                         <img  src="logo.png">
                     </div>
                     
-                    <div class="ticket-title">Booking Confirmation</div>
+                    <div class="ticket-title">Booking Ticket</div>
                 </div>
                 <div class="ticket-destination">
                     <div class="ticket-departure">
