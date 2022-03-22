@@ -294,7 +294,7 @@ function validateForm(departure, destination, departureDateInput, returnDateInpu
             document.querySelector('#departure').style.borderBottom = '1px solid red';
             document.querySelector('#search-departures').style.borderBottom = '1px solid red';
             document.querySelector('#departure-error-message').style.display = 'block';
-            document.querySelector('#departure-error-message').innerText = 'Necessário escolher uma cidade de origem!';
+            document.querySelector('#departure-error-message').innerText = 'Necessário pesquisar e escolher um aeroporto de origem!';
         }
         else if(index == 0 && value != '' && departureSuggestionClicked == true){
             inputValidateCount += 1;
@@ -306,7 +306,7 @@ function validateForm(departure, destination, departureDateInput, returnDateInpu
             document.querySelector('#destination').style.borderBottom = '1px solid red';
             document.querySelector('#search-destinations').style.borderBottom = '1px solid red';
             document.querySelector('#destination-error-message').style.display = 'block';
-            document.querySelector('#destination-error-message').innerText = 'Necessário escolher uma cidade de destino!';
+            document.querySelector('#destination-error-message').innerText = 'Necessário pesquisar e escolher um aeroporto de destino!';
         }
         else if(index == 1 && value != '' && destinationSuggestionClicked == true){
             inputValidateCount += 1;
