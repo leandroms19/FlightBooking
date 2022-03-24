@@ -14,6 +14,7 @@ let tt;
 
 minimumDatePicker();
 
+/****** Load icon animation ******/
 document.querySelector('#search-departures').addEventListener('click', () => {
     document.querySelector('#search-departures').classList.remove('material-icons')
     document.querySelector('#search-departures').innerText = ''
@@ -62,6 +63,7 @@ window.addEventListener('load', () => {
     let tripInput = JSON.parse(sessionStorage.getItem('trip'));
     
     if(tripInput != null){
+        console.log(tripInput)
          if(tripInput.tt == 'Somente Ida'){
             activateBackgroundTypeTrip(oneWayButton);
             standardTypeTrip(roundTripButton);
@@ -73,6 +75,10 @@ window.addEventListener('load', () => {
         document.querySelector('#return-date').value = FormatStringDate(tripInput.returnDate);
         document.querySelector('#adult-amount').innerHTML = tripInput.adultAmount;
         document.querySelector('#child-amount').innerHTML = tripInput.childAmount;
+        childAmount = tripInput.childAmount;
+        adultAmount = tripInput.adultAmount;
+
+        
     
         if(tripInput.tt == 'Somente ida'){
             activateBackgroundTypeTrip(oneWayButton);
@@ -90,9 +96,8 @@ window.addEventListener('load', () => {
         }
         
     }
-    //sessionStorage.removeItem('trip');
-})
-
+    
+});
 
 let departureSuggestionShowing = false;
 let destinationSuggetionShowing = false;
@@ -217,24 +222,34 @@ for(let i = 0; i < increaseButtons.length; i++){
             document.querySelector('#adult-amount').innerHTML = adultAmount;
         }
         else if(increaseButtons[i].parentNode.className == "childs" && childAmount < 9){
-            childAmount = parseInt(document.querySelector('#child-amount').innerHTML)
+            childAmount = parseInt(document.querySelector('#child-amount').innerHTML);
             childAmount += 1;
+            console.log(childAmount)
             document.querySelector('#child-amount').innerHTML = childAmount;
         }
     });
 }
 
 for(let i = 0; i < decreaseButtons.length; i++){
+    console.log(childAmount)
     decreaseButtons[i].addEventListener('click', () => {
         if(decreaseButtons[i].parentNode.className == "adults" && adultAmount > 0){
             adultAmount = parseInt(document.querySelector('#adult-amount').innerHTML)
+            console.log(adultAmount)
             adultAmount -= 1;
             document.querySelector('#adult-amount').innerHTML = adultAmount;
         }
         else if(decreaseButtons[i].parentNode.className == "childs" && childAmount > 0){
-            childAmount = parseInt(document.querySelector('#child-amount').innerHTML)
+            if(childAmount == 0){
+            childAmount = parseInt(document.querySelector('#child-amount').innerHTML);            
             childAmount -= 1;
+            //console.log(childAmount)
             document.querySelector('#child-amount').innerHTML = childAmount;
+            }
+            else if(childAmount != 0){
+                childAmount -= 1;
+                document.querySelector('#child-amount').innerHTML = childAmount;
+            }
         }
     });
 }
