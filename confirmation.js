@@ -20,7 +20,7 @@ if(tripParsedConfirmation.tt == 'Ida e volta'){
                     <div class="ticket-return">
                         <div class="confirmation-location"><h3>VOLTA </h3>${tripParsedConfirmation.destination}</div>
                         <div><h3>VOO </h3> ${tripParsedConfirmation.returnFlightNumber.replace("Voo", "")}</div>
-                        <div><h3>Data </h3> ${tripParsedConfirmation.returnDate}</div>
+                        <div><h3>DATA </h3> ${tripParsedConfirmation.returnDate}</div>
                         <div><h3>HORÁRIO </h3> ${tripParsedConfirmation.returnScheduleSelected.replace("Horário: ", "")}</div>
                     </div>
                 </div>
