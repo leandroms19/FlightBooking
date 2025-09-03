@@ -1,10 +1,12 @@
-const express = require("express");
+
+const express = require('express');
+const path = require('path');
 const app = express();
+app.use(express.static(path.join(__dirname)));
 
-app.get('/', (req,res) => {
-    res.sendFile('index.html', { root: __dirname });
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(8000, function(){
-    console.log("Logado")
-});
+
+app.listen(3000, () => console.log('Rodando em http://localhost:3000'));
