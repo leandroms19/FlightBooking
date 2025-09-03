@@ -63,8 +63,7 @@ window.addEventListener('load', () => {
     let tripInput = JSON.parse(sessionStorage.getItem('trip'));
     
     if(tripInput != null){
-        console.log(tripInput)
-         if(tripInput.tt == 'Somente Ida'){
+         if(tripInput.tt == 'Somente ida'){
             activateBackgroundTypeTrip(oneWayButton);
             standardTypeTrip(roundTripButton);
             document.querySelector('#return-date').style.visibility = 'hidden';
@@ -224,18 +223,15 @@ for(let i = 0; i < increaseButtons.length; i++){
         else if(increaseButtons[i].parentNode.className == "childs" && childAmount < 9){
             childAmount = parseInt(document.querySelector('#child-amount').innerHTML);
             childAmount += 1;
-            console.log(childAmount)
             document.querySelector('#child-amount').innerHTML = childAmount;
         }
     });
 }
 
 for(let i = 0; i < decreaseButtons.length; i++){
-    console.log(childAmount)
     decreaseButtons[i].addEventListener('click', () => {
         if(decreaseButtons[i].parentNode.className == "adults" && adultAmount > 0){
             adultAmount = parseInt(document.querySelector('#adult-amount').innerHTML)
-            console.log(adultAmount)
             adultAmount -= 1;
             document.querySelector('#adult-amount').innerHTML = adultAmount;
         }
@@ -243,7 +239,6 @@ for(let i = 0; i < decreaseButtons.length; i++){
             if(childAmount == 0){
             childAmount = parseInt(document.querySelector('#child-amount').innerHTML);            
             childAmount -= 1;
-            //console.log(childAmount)
             document.querySelector('#child-amount').innerHTML = childAmount;
             }
             else if(childAmount != 0){
@@ -299,7 +294,16 @@ function getInfo(){
    
     validateForm(departure, destination, departureDateInput, returnDateInput, cabin, departureDate, returnDate, departureScheduleSelected, returnScheduleSelected);
 }
-
+function tripType(){
+    if(window.getComputedStyle(roundTripButton).backgroundColor == 'rgb(5, 145, 138)'){
+        tt = 'Ida e volta';
+    }
+    else if(window.getComputedStyle(roundTripButton).backgroundColor != 'rgb(5, 145, 138)'){
+        tt = 'Somente ida';
+    }
+    console.log(tt);
+    return tt;
+}
 function validateForm(departure, destination, departureDateInput, returnDateInput, cabin, departureDate, returnDate, departureScheduleSelected, returnScheduleSelected){
     let todayDate = minimumDatePicker();
     inputValidateCount = 0;
@@ -372,22 +376,14 @@ function validateForm(departure, destination, departureDateInput, returnDateInpu
 
         
     })
-    if(inputValidateCount == 5){
+    if(inputValidateCount == 5 || inputValidateCount == 4 && tt == 'Somente ida'){
         let trip = new Trip(coordinatesArray, departureCity, destinationCity, departure, destination, departureDate, returnDate, cabin, tt, departureSchedules, returnSchedules,  adultAmount, childAmount, departureScheduleSelected, returnScheduleSelected);
         sessionStorage.setItem('trip', JSON.stringify(trip));
         window.location.href = "flights-schedule.html";
     }
 }
 
-function tripType(){
-    if(window.getComputedStyle(roundTripButton).backgroundColor == 'rgb(5, 145, 138)'){
-        tt = 'Ida e volta';
-    }
-    else if(window.getComputedStyle(roundTripButton).backgroundColor != 'rgb(5, 145, 138)'){
-        tt = 'Somente ida';
-    }
-    return tt;
-}
+
 
 let hasntAllCoordinates = false
 

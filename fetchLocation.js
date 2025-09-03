@@ -72,7 +72,6 @@ let coordinates = {
 };
 
 const fetchAirportsCoordinates = function (lat, lon, eID) {
-  console.log(lat, lon);
   fetch(
     `https://geo-airports-api.p.rapidapi.com/airport/nearest?lat=${lat}&lon=${lon}`,
     {
